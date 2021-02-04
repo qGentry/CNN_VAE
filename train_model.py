@@ -23,5 +23,5 @@ runner.train(
     num_epochs=10,
     verbose=True,
     load_best_on_end=True,
+    main_metric="ELBO",
 )
-

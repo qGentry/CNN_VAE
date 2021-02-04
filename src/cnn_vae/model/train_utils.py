@@ -5,7 +5,7 @@ from cnn_vae.prob_utils import calc_diag_mvn_kl_loss, calc_loglikelihood
 
 class Runner(dl.Runner):
 
-    def __init__(self, prior_y_sigma: float = 1.5):
+    def __init__(self, prior_y_sigma: float = 1):
         super().__init__()
         self.prior_y_sigma = prior_y_sigma
 
@@ -25,7 +25,7 @@ class Runner(dl.Runner):
 
         self.batch_metrics.update(
             {
-                "total_loss": total_loss.item(),
+                "ELBO": total_loss.item(),
                 "kl_div_loss": kl_div_loss.item(),
                 "reconstruction_loss": reconstruction_loss.item(),
             }
