@@ -30,11 +30,12 @@ class ConvTransposeDecoderNetwork(nn.Module):
             make_upconv_layer(256, 256, kernel_size=3, stride=2, dropout_p=dropout_p),
             make_upconv_layer(256, 128, kernel_size=3, stride=2, dropout_p=dropout_p),
             make_upconv_layer(128, 64, kernel_size=3, stride=2, dropout_p=dropout_p),
-            make_upconv_layer(64, 3, kernel_size=2, stride=1, dropout_p=dropout_p),
         )
+        self.last_upconv = nn.ConvTranspose2d(64, 3, kernel_size=2, stride=1)
 
     def forward(self, x: torch.Tensor):
         x = self.linears(x)
         x = x.unsqueeze(-1).unsqueeze(-1)
         x = self.upconvs(x)
+        x = self.last_upconv(x)
         return x

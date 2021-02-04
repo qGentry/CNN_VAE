@@ -45,9 +45,7 @@ class Model(nn.Module):
     def generate_picture(self, samples_count: int = 1):
         self.eval()
         z = self.sample_prior_z(samples_count)
-        z = self.variational_projector(z)
-        z = z.unsqueeze(-1).unsqueeze(-1)
-        decoded = self.upconvs(z)
+        decoded = self.decoder_network(z)
 
         return decoded.squeeze(1)
 

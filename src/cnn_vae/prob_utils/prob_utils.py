@@ -20,7 +20,7 @@ def calc_loglikelihood(inputs: torch.Tensor, outputs: torch.Tensor, sigma_prior:
     true_mu = inputs.flatten(1)
     base_normal = Normal(
         true_mu,
-        torch.tensor(torch.ones_like(true_mu) * sigma_prior, dtype=torch.float32)
+        torch.tensor(torch.ones_like(true_mu) * sigma_prior, dtype=torch.float32, device=true_mu.device)
     )
     mvn = Independent(base_normal, 1)
     llh = mvn.log_prob(predicted)
