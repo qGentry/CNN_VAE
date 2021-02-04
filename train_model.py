@@ -20,7 +20,7 @@ runner.train(
     optimizer=optimizer,
     loaders=dataloaders,
     logdir="./logs",
-    num_epochs=5,
+    num_epochs=10,
     verbose=True,
     load_best_on_end=True,
 )

@@ -16,17 +16,20 @@ class Model(nn.Module):
                  encoder_params: dict,
                  decoder_params: dict,
                  stochastic_dim: int,
+                 device: str,
                  ):
         super().__init__()
+        self.device = device
         self.stochastic_dim = stochastic_dim
         self.encoder_network = EncoderNetwork(**encoder_params)
         self.decoder_network = ConvTransposeDecoderNetwork(stochastic_dim, **decoder_params)
         self.mu_projector = nn.Linear(encoder_params['fc2_hidden'], stochastic_dim)
         self.sigma_projector = nn.Linear(encoder_params['fc2_hidden'], stochastic_dim)
+        self.to(device)
 
     def get_prior_z_distr_params(self, samples_count: int):
-        mu_prior = torch.zeros([samples_count, self.stochastic_dim])
-        sigma_prior = torch.ones_like(mu_prior)
+        mu_prior = torch.zeros([samples_count, self.stochastic_dim]).to(self.device)
+        sigma_prior = torch.ones_like(mu_prior).to(self.device)
         return mu_prior, sigma_prior
 
     @staticmethod

@@ -4,10 +4,9 @@ packaging==20.9
 Pillow==8.1.0
 protobuf==3.14.0
 pyparsing==2.4.7
-PyYAML==5.4.1
 six==1.15.0
 tensorboardX==2.1
-torch==1.7.1
-torchvision==0.8.2
+torch>=1.6.0
+torchvision==0.7.0
 tqdm==4.56.0
 typing-extensions==3.7.4.3
