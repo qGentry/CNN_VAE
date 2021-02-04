@@ -17,14 +17,13 @@ class EncoderNetwork(nn.Module):
         modules = list(backbone.children())[:-1]
         self.backbone = nn.Sequential(*modules)
 
-        self.linears = [
+        self.linears = nn.Sequential(
             make_linear_layer(backbone.fc.in_features, fc1_hidden, dropout_p),
             make_linear_layer(fc1_hidden, fc2_hidden, dropout_p),
-        ]
+        )
 
     def forward(self, x):
         x = self.backbone(x)
         x = x.squeeze()
-        for layer in self.linears:
-            x = layer(x)
+        x = self.linears(x)
         return x

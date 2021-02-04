@@ -42,6 +42,15 @@ class Model(nn.Module):
         distr = get_normal_distr_from_params(mu_prior, sigma_prior)
         return distr.sample()
 
+    def generate_picture(self, samples_count: int = 1):
+        self.eval()
+        z = self.sample_prior_z(samples_count)
+        z = self.variational_projector(z)
+        z = z.unsqueeze(-1).unsqueeze(-1)
+        decoded = self.upconvs(z)
+
+        return decoded.squeeze(1)
+
     def forward(self, x):
         x = self.encoder_network(x)
 
@@ -53,6 +62,3 @@ class Model(nn.Module):
         output = self.decoder_network(z)
 
         return output, mu, F.softplus(log_sigma)
-
-
-

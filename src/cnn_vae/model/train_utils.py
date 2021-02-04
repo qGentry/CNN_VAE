@@ -21,7 +21,7 @@ class Runner(dl.Runner):
         kl_div_loss = calc_diag_mvn_kl_loss(mu, sigma, prior_mu, prior_sigma).mean()
         reconstruction_loss = -calc_loglikelihood(images, reconstructed_images, self.prior_y_sigma).mean()
 
-        total_loss = reconstruction_loss + kl_div_loss
+        total_loss = reconstruction_loss
 
         self.batch_metrics.update(
             {

@@ -25,3 +25,4 @@ runner.train(
     load_best_on_end=True,
     main_metric="ELBO",
 )
+

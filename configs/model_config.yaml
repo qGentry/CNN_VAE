@@ -1,5 +1,5 @@
 stochastic_dim: 256
-device: "cuda:0"
+device: "cpu"
 encoder_params:
   fc1_hidden: 1024
   fc2_hidden: 512

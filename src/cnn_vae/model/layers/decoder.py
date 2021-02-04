@@ -16,13 +16,13 @@ class ConvTransposeDecoderNetwork(nn.Module):
     ):
         super().__init__()
 
-        self.linears = [
+        self.linears = nn.Sequential(
             make_linear_layer(stochastic_dim, fc1_hidden, dropout_p),
             make_linear_layer(fc1_hidden, fc2_hidden, dropout_p),
             make_linear_layer(fc2_hidden, fc3_hidden, dropout_p),
-        ]
+        )
 
-        self.upconvs = [
+        self.upconvs = nn.Sequential(
             make_upconv_layer(2048, 1024, kernel_size=2, stride=2, dropout_p=dropout_p),
             make_upconv_layer(1024, 512, kernel_size=3, stride=2, dropout_p=dropout_p),
             make_upconv_layer(512, 256, kernel_size=5, stride=2, dropout_p=dropout_p),
@@ -31,12 +31,10 @@ class ConvTransposeDecoderNetwork(nn.Module):
             make_upconv_layer(256, 128, kernel_size=3, stride=2, dropout_p=dropout_p),
             make_upconv_layer(128, 64, kernel_size=3, stride=2, dropout_p=dropout_p),
             make_upconv_layer(64, 3, kernel_size=2, stride=1, dropout_p=dropout_p),
-        ]
+        )
 
     def forward(self, x: torch.Tensor):
-        for layer in self.linears:
-            x = layer(x)
+        x = self.linears(x)
         x = x.unsqueeze(-1).unsqueeze(-1)
-        for layer in self.upconvs:
-            x = layer(x)
+        x = self.upconvs(x)
         return x
